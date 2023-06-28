@@ -11,5 +11,8 @@ RUN apt-get update
 RUN apt-get install -y drbl
 RUN sh -c 'echo "" |drblsrv -c n -g n  -l en_US.UTF-8 -k 2 -i -o 2'
 COPY drblpush.conf /etc/drbl/drblpush.conf
+COPY autopush /autopush
 RUN sh -c 'echo "" |drblpush -c /etc/drbl/drblpush.conf'
+ENTRYPOINT ["/autopush"]
 #CMD ["drbl-all-service start"]
+#CMD ["sleep", "infinity"]

@@ -1,0 +1,12 @@
+#!/bin/bash
+lanDev=$CLLAN
+lanIP=$CLLANIP
+cp /etc/drbl/drblpush.conf /etc/drbl/drblpush.conf.autopush.bak
+sed -i "s/CLLANIP/${lanIP}/g" /etc/drbl/drblpush.conf
+sed -i "s/CLLAN/${lanDev}/g" /etc/drbl/drblpush.conf
+echo "" | drblpush -c /etc/drbl/drblpush.conf
+rpcbind
+service nfs-kernel-server restart
+drbl-ocs -b -l en_US.UTF-8 -y0 -p true select_in_client
+echo "finish auto-drblpush"
+sleep infinity
