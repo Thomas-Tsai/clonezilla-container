@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 MAINTAINER thomas _at_ clonezilla.org
 
 VOLUME ["/tftpboot", "/home/", "/opt", "/usr", "/var"]
@@ -8,7 +8,7 @@ RUN gpg --keyserver keyserver.ubuntu.com --recv 45599AFD
 RUN gpg --export 667857D045599AFD |gpg --dearmour -o /etc/apt/trusted.gpg.d/drbl.gpg
 RUN echo 'deb http://free.nchc.org.tw/drbl-core drbl stable' >> /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get install -y drbl
+RUN apt-get install -y drbl pxelinux
 COPY dmraid_1.0.0.rc16-12_amd64.deb /dmraid_1.0.0.rc16-12_amd64.deb
 RUN apt-get install -y libdmraid1.0.0.rc16 udev dmsetup
 RUN dpkg -i /dmraid_1.0.0.rc16-12_amd64.deb
