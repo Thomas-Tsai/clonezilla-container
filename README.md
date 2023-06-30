@@ -4,8 +4,19 @@ Docker file source for [DRBL](https://drbl.org) and [Clonezilla](https://clonezi
 
 ## Basic
 
-The DRBL and Clonezilla server need 2 network devices, one for internet access, another network device is intranet only. About the network configuration please check [doc](https://drbl.org/installation/).
+The DRBL and Clonezilla server need 2 network devices, one for internet access, another network device is intranet only. About the network configuration please check [doc](https://drbl.org/installation/). This image will use host network as DRBL and Clonezilla Server, please make sure you stop all realted service like: tftp, nfs, dhcp services.
 
+to stop rpcbind(port 111) in debian like system:
+
+```
+sudo systemctl status rpcbind.socket 
+```
+
+and also remember to load nfs module before run drbl container
+
+```
+modprobe nfsd
+```
 
 ## clonezilla
 
