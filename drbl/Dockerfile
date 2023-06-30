@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 MAINTAINER thomas _at_ clonezilla.org
 
 VOLUME ["/tftpboot", "/home/", "/opt", "/usr", "/var"]
@@ -9,6 +9,10 @@ RUN gpg --export 667857D045599AFD |gpg --dearmour -o /etc/apt/trusted.gpg.d/drbl
 RUN echo 'deb http://free.nchc.org.tw/drbl-core drbl stable' >> /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get install -y drbl
+COPY dmraid_1.0.0.rc16-12_amd64.deb /dmraid_1.0.0.rc16-12_amd64.deb
+RUN apt-get install -y libdmraid1.0.0.rc16 udev dmsetup
+RUN dpkg -i /dmraid_1.0.0.rc16-12_amd64.deb
+RUN apt-get install -f -y
 RUN sh -c 'echo "" |drblsrv -c n -g n  -l en_US.UTF-8 -k 2 -i -o 2'
 COPY drblpush.conf /etc/drbl/drblpush.conf
 COPY autopush /autopush
