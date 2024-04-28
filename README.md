@@ -25,8 +25,7 @@ This image provide Clonezilla Server.
 ### run
 
 ```
-docker run -itd --rm  --network=host --name=clonezilla --cap-add=ALL --privileged -e CLLAN=$DRBL-LAN-CARD -e CLLANIP=$DRBL-LAN-IP -v /home/partimag/:/home/partimag  tlinux/clonezilla:latest 
-
+docker run -itd --rm --network=host --name=clonezilla --cap-add=ALL --privileged -e CLLAN=$DRBL-LAN-CARD -e CLLANIP=$DRBL-LAN-IP -v /home/partimag/:/home/partimag  tlinux/clonezilla:latest 
 ```
 
 ### logs
@@ -87,4 +86,15 @@ run clonezilla:
 
 ```
 docker run -itd --rm  --network=host --name=clonezilla --cap-add=ALL --privileged -e CLLAN=ens38 -e CLLANIP=10.103.19.6 -v /home/partimag/:/home/partimag  tlinux/clonezilla:latest
+```
+
+## Notes
+
+### DNS
+
+due to docker engine will copy resolv.conf from host to container while running but container would not run system-resolvd, that is fine for container only not for DRBL.
+`drblpush` may get error about nameserver missing. To avoid this error, add `--dns` while you run docker
+
+```
+docker run -itd --rm  --network=host --dns=8.8.8.8 --name=clonezilla --cap-add=ALL --privileged -e CLLAN=ens38 -e CLLANIP=10.103.19.6 -v /home/partimag/:/home/partimag  tlinux/clonezilla:latest
 ```
